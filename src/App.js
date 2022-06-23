@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Route, Switch } from 'react-router';
+import { ThemeProvider } from 'styled-components';
+import { useSelector } from 'react-redux';
+
+import LandingPage from './app/containers/LandingPage/loadable'
+import HomePage from './app/containers/Homepage/loadable';
+
+import GlobalStyles from './app/config/GlobalStyles'
+import { setTheme } from './app/utils/modeUtil'
 
 function App() {
+
+  const currentTheme = useSelector(state => state.mode.theme)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={setTheme(currentTheme)}>
+      <GlobalStyles />
+      <Switch>
+        <Route exact path="/" component={LandingPage} />
+        <Route path="/home" component={HomePage} />
+      </Switch>
+    </ThemeProvider>
   );
 }
 
